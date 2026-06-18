@@ -6,6 +6,8 @@ EXTERNPROTO "../protos/TT02_2025a.proto"
 EXTERNPROTO "../protos/TT02_2025a_camera.proto"
 
 WorldInfo {
+  basicTimeStep 8 # Reduced from 32 ms to improve vehicle dynamics at higher speeds
+  # FPS 30 # Rendering at ~30 FPS may be needed on slower machines
 }
 Viewpoint {
   orientation 0.10338522328987032 0.9346479856346036 -0.3402126372645224 0.8040879364415331

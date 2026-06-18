@@ -9,9 +9,26 @@
                 <alwaysOn>true</alwaysOn>
             </ros>
         </device>
+
         <device reference="accelerometer" type="Accelerometer">
             <ros>
                 <topicName>/yellow_car/imu/acceleration</topicName>
+                <frameName>base_link</frameName>
+                <alwaysOn>true</alwaysOn>
+            </ros>
+        </device>
+
+        <device reference="gyro" type="Gyro">
+            <ros>
+                <topicName>/yellow_car/imu/angular_velocity</topicName>
+                <frameName>base_link</frameName>
+                <alwaysOn>true</alwaysOn>
+            </ros>
+        </device>
+
+        <device reference="inertial_unit" type="InertialUnit">
+            <ros>
+                <topicName>/yellow_car/imu/orientation</topicName>
                 <frameName>base_link</frameName>
                 <alwaysOn>true</alwaysOn>
             </ros>

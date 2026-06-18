@@ -48,7 +48,7 @@ These topics are available in both launch files.
 |---|---|---|---|---|
 | `/yellow_car/cmd_ackermann` | `ackermann_msgs/msg/AckermannDrive` | subscribed | `yellow_driver` | Main control input for the simulated vehicle. |
 | `/yellow_car/scan` | `sensor_msgs/msg/LaserScan` | published | `webots_bridge` | Lidar output from the `RpLidarA2` device. |
-| `/joint_states` | `sensor_msgs/msg/JointState` | published | `yellow_driver` | Steering and wheel rotation states measured from the simulated vehicle joints. |
+| `/yellow_car/joint_states` | `sensor_msgs/msg/JointState` | published | `yellow_driver` | Steering and wheel rotation states measured from the simulated vehicle joints. |
 | `/yellow_car/current_speed` | `std_msgs/msg/Float32` | published | `yellow_driver` | Current vehicle speed measured by Webots and converted to m/s. |
 | `/tf` | `tf2_msgs/msg/TFMessage` | published | `robot_state_publisher` | Dynamic transforms for the robot model. |
 | `/tf_static` | `tf2_msgs/msg/TFMessage` | published | `robot_state_publisher` | Static transforms from the robot URDF. |
@@ -64,6 +64,7 @@ These topics are only available in the camera-enabled launch file.
 
 ## Notes
 
-- `yellow_driver` now reads Webots position sensors to publish `/joint_states`, and reads `getCurrentSpeed()` to publish `/yellow_car/current_speed` in m/s.
+- ~~`yellow_driver` now reads Webots position sensors to publish `/yellow_car/joint_states`, and reads `getCurrentSpeed()` to publish `/yellow_car/current_speed` in m/s.~~  
+Since `getCurrentSpeed()` is not working, `/yellow_car/current_speed` currently reports the commanded speed from `/yellow_car/cmd_ackermann` rather than the actual vehicle speed.
 - Steering is derived from the `AckermannDrive.steering_angle` field and mirrored to both front steering joints.
 - The camera is only declared in `resource/TT02_jaune_cam.urdf`, so it is only exposed by the camera launch file.
