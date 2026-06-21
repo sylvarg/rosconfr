@@ -35,6 +35,10 @@ class YellowDriver:
         self.__rear_left_wheel_sensor.enable(self.__timestep_ms)
         self.__rear_right_wheel_sensor.enable(self.__timestep_ms)
 
+        self.__WHEEL_RADIUS = 0.04  # m (cf. URDF cylinder radius)
+        self.__prev_rear_left_pos = None
+        self.__prev_rear_right_pos = None
+
         # ROS interface
         rclpy.init(args=None)
         self.__node = rclpy.create_node('yellow_driver')
@@ -75,8 +79,21 @@ class YellowDriver:
         self.__joint_state_publisher.publish(message)
 
     def __publish_current_speed(self):
+        left_pos = self.__rear_left_wheel_sensor.getValue()
+        right_pos = self.__rear_right_wheel_sensor.getValue()
+        if self.__prev_rear_left_pos is None:
+            self.__prev_rear_left_pos = left_pos
+            self.__prev_rear_right_pos = right_pos
+            speed_m_s = 0.0
+        else:
+            dt = self.__timestep_ms / 1000.0
+            left_vel = (left_pos - self.__prev_rear_left_pos) / dt
+            right_vel = (right_pos - self.__prev_rear_right_pos) / dt
+            self.__prev_rear_left_pos = left_pos
+            self.__prev_rear_right_pos = right_pos
+            speed_m_s = ((left_vel + right_vel) / 2.0) * self.__WHEEL_RADIUS
         message = Float32()
-        message.data = self.__robot.getCurrentSpeed() / 3.6
+        message.data = float(speed_m_s)
         self.__current_speed_publisher.publish(message)
 
     def _shutdown_ros(self):

@@ -18,7 +18,8 @@ def generate_launch_description():
         world=os.path.join(package_dir, 'worlds',
                            'Piste_CoVAPSy_2025a.wbt'),
         mode='realtime',
-        gui=True
+        gui=True,
+        ros2_supervisor=True,
     )
 
     webots_bridge = WebotsController(
@@ -48,6 +49,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         webots,
+        webots._supervisor,
         webots_bridge,
         robot_state_publisher,
         # CoVAPSy_conduite,
